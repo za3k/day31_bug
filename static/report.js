@@ -1,16 +1,18 @@
 'use strict';
 
-function makeReporterStub() {
-    document.body.insertAdjacentHTML("beforeend", `
-        <div id="bug-reporter" style="position: fixed; bottom:0; right: 0; margin: 0; border: 2px solid; border-radius: 10px; padding: 4px; text-decoration: none; font-size: 18pt;">
-            <a href="#report" onclick="document.getElementById('bug-reporter').remove(); makeReporter();">Report bug</a>
-        </div>
-    `);
-}
-
-function makeReporter() {
+function makeReporter(stub) {
     const reporter = document.getElementById("bug-reporter");
-    if (reporter) return;
+    if (reporter) reporter.remove();
+    
+    if (!!stub) { // First time 'stub' is an event
+        document.body.insertAdjacentHTML("beforeend", `
+            <div id="bug-reporter" style="position: fixed; bottom:0; right: 0; margin: 0; border: 2px solid; border-radius: 10px; padding: 4px; text-decoration: none; font-size: 18pt; background-color:white; z-index: 99;">
+                <a href="#report" onclick="makeReporter(0)">Report bug</a>
+            </div>
+        `);
+        return;
+    }
+
 
     const id = Math.floor(Math.random()*1000000000);
 
@@ -29,7 +31,7 @@ function makeReporter() {
         <table>
             <tr><td colspan="2">
                 Bug Reporter
-                <a href="#" onclick="document.getElementById('bug-reporter').remove(); makeReporterStub()" style="float: right; font-weight: bold">X</a>
+                <a href="#" onclick="makeReporter(1)" style="float: right; font-weight: bold">X</a>
             </td></tr>
             <tr><td>report id</td><td>
                 <input type="hidden" name="id" value="${id}"/>
@@ -87,5 +89,5 @@ What actually happened:
         if (document.readyState === "complete" || document.readyState === "interactive") setTimeout(fn, 1);
         else document.addEventListener("DOMContentLoaded", fn);
     }
-    docReady(makeReporterStub);
+    docReady(makeReporter);
 })();
