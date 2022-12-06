@@ -53,12 +53,13 @@ function makeReporter() {
             <tr><td>type</td><td>
                 <select name="type">
                     <option value="incomplete">Select one...</option>
+                    <option value="compliment">I like this</option>
                     <option value="bug">This doesn't work for me</option>
                     <option value="bug">Something is broken</option>
                     <option value="bug">Something is wrong</option>
                     <option value="feature">You should add something cool</option>
                     <option value="feature">You should make this better</option>
-                    <option value="project">You should do this project</option>
+                    <option value="project">You should do another project</option>
                 </select>
             </td></tr>
             <tr><td>url</td><td>
