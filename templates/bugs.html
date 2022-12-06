@@ -1,0 +1,55 @@
+<html>
+<head>
+    <title>Hack-A-Bug</title>
+    <style>
+        table, td, td {
+            border: 1px solid;
+            border-collapse: collapse;
+        }
+        tr:nth-child(1) {
+            background-color: yellow;
+        }
+        tr:nth-child(even) {
+            background-color: lightyellow;
+        }
+        td {
+            padding: 3px;
+        }
+    </style>
+    <script src="{{ url_for('js') }}"></script>
+</head>
+<body>
+{% if onebug %}
+<h1>You reported a bug</h1>
+<h2>Feel free to use your browser to go <a href="javascript:history.go(-1)">BACK</a></h2>
+{% else %}
+<h1>Hack-A-Bug: Reported Bugs</h1>
+{% endif %}
+<table>
+    <tr>
+        <td>date</td>
+        <td>id</td>
+        <td>type</td>
+        <td>url</td>
+        <td>project</td>
+        <td>screenshot</td>
+        <td>description</td>
+        <td>contact</td>
+    </tr>
+{% for bug in bugs %}
+    <tr>
+        <td>{{ bug.date }}</td>
+        <td>{{ bug.id }}</td>
+        <td>{{ bug.type }}</td>
+        <td>{{ bug.url }}</td>
+        <td>{{ bug.project }}</td>
+        <td>{% for i in range(bug.screenshot|length) %}
+            <a href="{{ url_for("screenshot", bug_id=bug.id, screenshot=i) }}"><img src="{{ url_for("screenshot", bug_id=bug.id, screenshot=i) }}" alt="{{bug.screenshot[i]["name"]}}" style="max-width: 200px; max-height: 200px;"/></a>
+            {% endfor %}</td>
+        <td><pre>{{ bug.description }}</pre></td>
+        <td>{{ bug.contact }}</td>
+    </tr>
+{% endfor %}
+</table>
+</body>
+</html>

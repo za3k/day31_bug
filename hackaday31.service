@@ -1,0 +1,11 @@
+[Unit]
+Description=gunicorn3 for doodle RPG
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/hackaday/doodlerpg
+ExecStart=/bin/gunicorn3 --bind 0.0.0.0:8031 app:app
+
+[Install]
+WantedBy=multi-user.target
