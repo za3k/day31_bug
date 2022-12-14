@@ -25,10 +25,17 @@ def report():
 
 @app.route(PREFIX+"/")
 def page_bugs():
-    return render_template("bugs.html", bugs=bugs.values())
+    return render_template("bugs.html", bugs=reversed(list(bugs.values())))
 @app.route(PREFIX+"/bugs/<bug_id>")
 def page_bug(bug_id):
     return render_template("bugs.html", bugs=[bugs[bug_id]], onebug=True)
+@app.route(PREFIX+"/bugs/<bug_id>/fixed")
+def bug_fixed(bug_id):
+    bug = bugs[bug_id]
+    bug["fixed"] = True
+    bugs[bug_id] = bug
+    return page_bugs()
+
 @app.route(PREFIX+"/bugs/<bug_id>/screenshot/<int:screenshot>")
 def screenshot(bug_id, screenshot):
     bug = bugs[bug_id]

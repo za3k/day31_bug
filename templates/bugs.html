@@ -15,6 +15,14 @@
         td {
             padding: 3px;
         }
+        tr.fixed {
+            background-color: lightgreen;
+            opacity: 0.5;
+        }
+        pre {
+            max-width: 600px;
+            white-space: pre-wrap;
+        }
     </style>
     <script src="{{ url_for('js') }}"></script>
 </head>
@@ -25,6 +33,7 @@
 {% else %}
 <h1>Hack-A-Bug: Reported Bugs</h1>
 {% endif %}
+
 <table>
     <tr>
         <td>date</td>
@@ -35,9 +44,10 @@
         <td>screenshot</td>
         <td>description</td>
         <td>contact</td>
+        <td>fixed</td>
     </tr>
 {% for bug in bugs %}
-    <tr>
+    <tr class="{% if bug.fixed %}fixed{% endif %}">
         <td>{{ bug.date }}</td>
         <td>{{ bug.id }}</td>
         <td>{{ bug.type }}</td>
@@ -48,6 +58,7 @@
             {% endfor %}</td>
         <td><pre>{{ bug.description }}</pre></td>
         <td>{{ bug.contact }}</td>
+        <td>{% if bug.fixed %}Fixed{% else %}<form action="{{ url_for("bug_fixed", bug_id=bug.id) }}"><input type="submit" value="Mark fixed"/></form>{% endif %}</td>
     </tr>
 {% endfor %}
 </table>
