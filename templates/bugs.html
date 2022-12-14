@@ -46,6 +46,7 @@
         <td>contact</td>
         <td>fixed</td>
     </tr>
+
 {% for bug in bugs %}
     <tr class="{% if bug.fixed %}fixed{% endif %}">
         <td>{{ bug.date }}</td>
