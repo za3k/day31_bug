@@ -25,7 +25,7 @@ def report():
 
 @app.route(PREFIX+"/")
 def page_bugs():
-    return render_template("bugs.html", bugs=reversed(list(bugs.values())))
+    return render_template("bugs.html", bugs=sorted(bugs.values(), key=lambda bug: (bug.get("fixed",False), bug.get("date"))))
 @app.route(PREFIX+"/bugs/<bug_id>")
 def page_bug(bug_id):
     return render_template("bugs.html", bugs=[bugs[bug_id]], onebug=True)
